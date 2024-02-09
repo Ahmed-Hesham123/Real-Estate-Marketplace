@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../components";
+import { Button, OAuth } from "../components/index";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -62,6 +62,7 @@ const SignIn = () => {
         <Button disabled={loading} type="submit" bgColor="bg-slate-700">
           {loading ? "Loading..." : "Sign In"}
         </Button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don&#39;t have an account?</p>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../components/index.js";
+import { Button, OAuth } from "../components/index.js";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
@@ -64,10 +64,11 @@ const SignUp = () => {
         <Button disabled={loading} type="submit" bgColor="bg-slate-700">
           {loading ? "Loading..." : "Sign Up"}
         </Button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Have an account?</p>
-        <Link to="sign-in">
+        <Link to="/sign-in">
           <span className="text-blue-500">Sign in</span>
         </Link>
       </div>
