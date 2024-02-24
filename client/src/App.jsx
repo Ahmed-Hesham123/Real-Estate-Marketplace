@@ -9,6 +9,7 @@ import {
   SignUp,
   Error,
 } from "./pages/index";
+import { PrivateRoute } from "./components/index";
 
 const router = createBrowserRouter([
   {
@@ -33,8 +34,13 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "/profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
   },
