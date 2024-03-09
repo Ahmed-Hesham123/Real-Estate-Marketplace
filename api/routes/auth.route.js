@@ -3,7 +3,7 @@ import {
   signup,
   signin,
   google,
-  signout,
+  signOut,
 } from "../controllers/auth.controller.js";
 
 const router = express.Router();
@@ -14,6 +14,6 @@ router.post("/signin", signin);
 
 router.post("/google", google);
 
-router.get("/signout", signout);
+router.get("/signOut", signOut);
 
 export default router;
