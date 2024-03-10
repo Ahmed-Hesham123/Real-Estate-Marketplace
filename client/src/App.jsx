@@ -8,6 +8,7 @@ import {
   SignIn,
   SignUp,
   Error,
+  CreateListing,
 } from "./pages/index";
 import { PrivateRoute } from "./components/index";
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: "/profile",
             element: <Profile />,
+          },
+          {
+            path: "/create-listing",
+            element: <CreateListing />,
           },
         ],
       },
