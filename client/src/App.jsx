@@ -10,6 +10,7 @@ import {
   Error,
   CreateListing,
   UpdateListing,
+  Listing,
 } from "./pages/index";
 import { PrivateRoute } from "./components/index";
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/listing/:listingId",
+        element: <Listing />,
       },
       {
         path: "/sign-in",
