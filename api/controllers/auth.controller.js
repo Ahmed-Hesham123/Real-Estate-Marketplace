@@ -3,6 +3,15 @@ import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
+const updateTokenExpiration = (res, token) => {
+  // Set the expiration time for the token cookie
+  const expiryDate = new Date(Date.now() + process.env.JWT_EXPIRATION * 1000); // Convert seconds to milliseconds
+  res.cookie("access_token", token, {
+    httpOnly: true,
+    expires: expiryDate,
+  });
+};
+
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = await bcryptjs.hash(password, 10);
@@ -24,10 +33,8 @@ export const signin = async (req, res, next) => {
     if (!validPassword) return next(errorHandler(401, "Wrong credentials!"));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(200)
-      .json(rest);
+    updateTokenExpiration(res, token); // Update token expiration
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }
@@ -39,14 +46,8 @@ export const google = async (req, res, next) => {
     if (user) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
-      const expiryDate = new Date(Date.now() + 3600000);
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
+      updateTokenExpiration(res, token); // Update token expiration
+      res.status(200).json(rest);
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -63,14 +64,8 @@ export const google = async (req, res, next) => {
       await newUser.save();
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
-      const expiryDate = new Date(Date.now() + 3600000);
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          expires: expiryDate,
-        })
-        .status(200)
-        .json(rest);
+      updateTokenExpiration(res, token); // Update token expiration
+      res.status(200).json(rest);
     }
   } catch (error) {
     next(error);
