@@ -11,6 +11,7 @@ import {
   CreateListing,
   UpdateListing,
   Listing,
+  Search
 } from "./pages/index";
 import { PrivateRoute } from "./components/index";
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
       {
         path: "/listing/:listingId",

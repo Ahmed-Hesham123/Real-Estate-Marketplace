@@ -8,3 +8,4 @@ export { default as Error } from "./Error";
 export { default as CreateListing } from "./CreateListing";
 export { default as UpdateListing } from "./UpdateListing";
 export { default as Listing } from "./Listing";
+export { default as Search } from "./Search";
