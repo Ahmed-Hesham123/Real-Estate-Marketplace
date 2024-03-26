@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      setError(false);
+      setError("");
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -27,13 +27,14 @@ const SignUp = () => {
       const data = await res.json();
       setLoading(false);
       if (data.success === false) {
-        setError(true);
+        console.log(data.message);
+        setError(data.message);
         return;
       }
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-      setError(true);
+      setError("Something went wrong!")
     }
   };
   return (
@@ -72,7 +73,7 @@ const SignUp = () => {
           <span className="text-blue-500">Sign in</span>
         </Link>
       </div>
-      {error && <p className="text-red-700 mt-5">Something went wrong!</p>}
+      {error && <p className="text-red-700 mt-5">{error}</p>}
     </div>
   );
 };

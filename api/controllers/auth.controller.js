@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { validateEmail, validateUsername, validatePassword } from "../utils/validation.js";
 
 const updateTokenExpiration = (res, token) => {
   // Set the expiration time for the token cookie
@@ -14,6 +15,29 @@ const updateTokenExpiration = (res, token) => {
 
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
+
+  // Validate username
+  if (!validateUsername(username)) {
+    return next(
+      errorHandler(
+        400,
+        "Invalid username: should contains at least one number and one uppercase character"
+      )
+    );
+  }
+  // Validate email
+  if (!validateEmail(email)) {
+    return next(errorHandler(400, "Invalid email address"));
+  }
+  // Validate password
+  if (!validatePassword(password)) {
+    return next(
+      errorHandler(
+        400,
+        "Invalid password: should contains at least 8 characters including one uppercase, one lowercase, one digit, and one special character"
+      )
+    );
+  }
   const hashedPassword = await bcryptjs.hash(password, 10);
   const newUser = new User({ username, email, password: hashedPassword });
   try {
